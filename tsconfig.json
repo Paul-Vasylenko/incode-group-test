@@ -7,11 +7,10 @@
     "allowJs": false,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "baseUrl": "./src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "outDir": "dist"
+    "outDir": "dist",
   },
   "include": ["**/*"],
   "exclude": ["node_modules"],
