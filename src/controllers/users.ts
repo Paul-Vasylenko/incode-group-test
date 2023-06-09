@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
+import User from '../models/User';
 
 export default {
-  list: (req: Request, res: Response) => {
-    res.json(123);
+  list: async (req: Request, res: Response) => {
+    const users = await User.findAll();
+
+    res.json(users);
   },
 };
