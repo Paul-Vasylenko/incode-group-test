@@ -1,13 +1,14 @@
 import express from 'express';
 import { getValidEnv } from './src/utils/env';
 import sequelize from './db';
+import routers from './src/routers';
 
 const { PORT } = getValidEnv();
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Express + TypeScript Server');
-});
+for (const router of routers) {
+  app.use('/api/v1', router);
+}
 
 (async function() {
   try{
