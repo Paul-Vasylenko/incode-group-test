@@ -1,6 +1,5 @@
 import express from 'express';
-import { config } from 'dotenv';
-config();
+
 
 import { getValidEnv } from './src/utils/env';
 import sequelize from './db';

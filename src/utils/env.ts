@@ -1,4 +1,6 @@
 import { z as zod } from "zod";
+import { config } from 'dotenv';
+config(); // Need env before 
 
 const EnvSchema = zod.object({
     PORT: zod.string().nonempty(),
