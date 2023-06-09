@@ -29,7 +29,7 @@ class User extends Model {
   lastName!: string;
 
   @Column
-  email!: string;
+  email!: string; // has unique index "Users_unique_email"
 
   @Column
   passwordHash!: string;

@@ -25,6 +25,13 @@ module.exports = {
         { transaction },
       );
 
+      await queryInterface.addIndex('Users', {
+        unique: true,
+        fields: ['email'],
+        name: 'Users_unique_email',
+        transaction,
+      });
+
       await transaction.commit();
     } catch (e) {
       console.error('Migration error: ', e);
@@ -38,6 +45,7 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction();
 
     try {
+      await queryInterface.removeIndex('Users', 'Users_unique_email');
       await queryInterface.dropTable('Users', { transaction });
 
       await transaction.commit();
