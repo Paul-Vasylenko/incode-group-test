@@ -1,0 +1,9 @@
+[
+    {
+        "id": "ADMINISTRATOR",
+        "name": "Administrator",
+        "permissions": [
+            "register_user"
+        ]
+    }
+]

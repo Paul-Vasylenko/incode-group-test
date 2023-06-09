@@ -7,7 +7,9 @@ import {
   CreatedAt,
   UpdatedAt,
   DeletedAt,
+  HasOne
 } from 'sequelize-typescript';
+import Role from './Role';
 
 @Table({
   paranoid: true,
@@ -33,6 +35,10 @@ class User extends Model {
 
   @Column
   passwordHash!: string;
+
+  @HasOne(() => Role)
+  @Column
+  roleId!: string
 
   @CreatedAt
   createdAt!: Date;

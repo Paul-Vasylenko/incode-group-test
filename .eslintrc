@@ -13,6 +13,7 @@
           "ignoreUrls": true,
           "ignoreTemplateLiterals": true,
           "ignoreStrings": true 
-        }]
+        }],
+        "new-cap": 0
     }
 }

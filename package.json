@@ -13,7 +13,8 @@
     "lint": "eslint --ignore-path .gitignore .",
     "lint:fix": "eslint --ignore-path .gitignore . --fix",
     "format": "prettier --ignore-path .gitignore --check './*.ts' './src/**/*'",
-    "format:fix": "prettier --ignore-path .gitignore --write './*.ts' './src/**/*'"
+    "format:fix": "prettier --ignore-path .gitignore --write './*.ts' './src/**/*'",
+    "seed": "sequelize db:seed:all"
   },
   "repository": {
     "url": "git+https://github.com/Paul-Vasylenko/incode-group-test.git"
