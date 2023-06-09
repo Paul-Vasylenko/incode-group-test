@@ -6,7 +6,10 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "npx nodemon"
+    "dev": "nodemon",
+    "migrate": "sequelize db:migrate",
+    "migrate-undo": "sequelize db:migrate:undo",
+    "cleanup": "sequelize db:migrate:undo:all"
   },
   "repository": {
     "url": "git+https://github.com/Paul-Vasylenko/incode-group-test.git"

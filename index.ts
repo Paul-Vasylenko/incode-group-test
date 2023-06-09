@@ -1,6 +1,4 @@
 import express from 'express';
-
-
 import { getValidEnv } from './src/utils/env';
 import sequelize from './db';
 
