@@ -1,0 +1,18 @@
+{
+    "extends": "metarhia",
+    "rules": {
+        "import/no-commonjs": 0,
+        "func-names": 0,
+        "func-style": 0,
+        "prefer-arrow-callback": 0,
+        "default-case": 0,
+        "more/no-numeric-endings-for-variables": 0,
+        "max-len": ["error", { 
+          "comments": 800, 
+          "code": 120,
+          "ignoreUrls": true,
+          "ignoreTemplateLiterals": true,
+          "ignoreStrings": true 
+        }]
+    }
+}

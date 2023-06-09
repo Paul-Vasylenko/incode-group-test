@@ -10,15 +10,14 @@ for (const router of routers) {
   app.use('/api/v1', router);
 }
 
-(async function() {
-  try{
+(async function () {
+  try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
-  } catch(e) {
+  } catch (e) {
     console.error('Unable to connect to the database:', e);
   }
 })();
-  

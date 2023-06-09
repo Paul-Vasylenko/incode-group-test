@@ -1,4 +1,4 @@
-import {Sequelize} from 'sequelize-typescript';
+import { Sequelize } from 'sequelize-typescript';
 import { getValidEnv } from './src/utils';
 
 const env = getValidEnv();
@@ -10,7 +10,7 @@ const sequelize = new Sequelize({
   password: env.DB_PASS,
   host: '127.0.0.1',
   port: 5432,
-  models: [__dirname + '/src/models']
+  models: [__dirname + '/src/models'],
 });
 
 export default sequelize;
