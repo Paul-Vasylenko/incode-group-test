@@ -26,6 +26,7 @@ const getJWTPayload = (user: User) => {
 
   return payload;
 };
+export type TTokenPayload = ReturnType<typeof getJWTPayload>;
 
 export const getAccessToken = (user: User) => {
   const payload = getJWTPayload(user);
@@ -49,3 +50,8 @@ export const generateTokens = (user: User) => {
         refreshToken: getRefreshToken(user),
     }
 }
+
+export const checkAccessToken = (token: string) : TTokenPayload => {
+  const env = getValidEnv();
+  return jsonwebtoken.verify(token, env.JWT_SECRET) as TTokenPayload;
+} 

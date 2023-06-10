@@ -9,6 +9,8 @@ import {
   DeletedAt,
   BelongsTo,
   ForeignKey,
+  Default,
+  DataType,
 } from 'sequelize-typescript';
 import Role from './Role';
 
@@ -21,6 +23,7 @@ import Role from './Role';
 })
 class User extends Model {
   @IsUUID(4)
+  @Default(DataType.UUIDV4)
   @PrimaryKey
   @Column
   id!: string;
@@ -53,7 +56,7 @@ class User extends Model {
   updatedAt!: Date;
 
   @DeletedAt
-  deletedAt!: Date | null;
+  deletedAt!: Date;
 }
 
 export default User;
