@@ -38,6 +38,11 @@ export const registerSchema = zod
     path: ['confirmPassword'], // path of error
   });
 
-
-
 export type RegisterSchema = zod.infer<typeof registerSchema>;
+
+export const updateBossSchema = zod.object({
+  bossId: zod.string().uuid(),
+  id: zod.string().uuid(),
+});
+
+export type UpdateBossSchema = zod.infer<typeof updateBossSchema>;

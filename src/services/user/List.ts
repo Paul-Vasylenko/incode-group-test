@@ -6,19 +6,6 @@ class ListUsersService {
     return User.findAll();
   };
 
-  getById = async (id: string) => {
-    const user = await User.findByPk(id);
-
-    if (!user)
-      throw new ApiError({
-        message: 'User not found',
-        type: 'NOT_FOUND',
-        status: 400,
-      });
-
-    return user;
-  };
-
   listSubordinates = async (user: User) => {
     return user.getSubordinates();
   };

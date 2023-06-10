@@ -6,7 +6,8 @@
         "mustHaveBoss": false,
         "permissions": [
             "create_user",
-            "list_all_users"
+            "list_all_users",
+            "change_boss"
         ]
     },
     {
@@ -16,7 +17,9 @@
         "mustHaveBoss": false,
         "permissions": [
             "list_yourself",
-            "list_subordinates"
+            "list_subordinates",
+            "become_boss",
+            "change_boss"
         ]
     },
     {
@@ -25,7 +28,8 @@
         "mayHaveBoss": true,
         "mustHaveBoss": true,
         "permissions": [
-            "list_yourself"
+            "list_yourself",
+            "become_boss"
         ]
     }
 ]
