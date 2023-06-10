@@ -1,10 +1,19 @@
+import ApiError from './errors';
+
 interface IPermissions {
-    permissions: string[];
+  permissions: string[];
 }
 export const isAllowed = (user: IPermissions, required: string[]) => {
-    const allowed = required.some(permission => user.permissions.includes(permission));
+  const allowed = required.some((permission) =>
+    user.permissions.includes(permission),
+  );
 
-    if (!allowed) throw new Error('Permission denied')
+  if (!allowed)
+    throw new ApiError({
+      message: 'Permission denied',
+      type: 'PERMISSION_DENIED',
+      status: 403,
+    });
 
-    return allowed;
-}
+  return allowed;
+};

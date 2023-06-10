@@ -7,6 +7,7 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import User from './User';
+import ApiError from '../utils/errors';
 
 @Table({
   tableName: 'Roles',
@@ -38,7 +39,11 @@ class Role extends Model {
   static async findById(id: string) {
     const role = await this.findByPk(id);
     
-    if(!role) throw new Error('Not found');
+    if(!role) throw new ApiError({
+      message: 'Not found',
+      status: 404,
+      type: 'NOT_FOUND'
+    });
 
     return role;
   }

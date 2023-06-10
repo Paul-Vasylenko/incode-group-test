@@ -3,6 +3,7 @@ import cookie from 'cookie-parser';
 import { getValidEnv } from './src/utils/env';
 import sequelize from './db';
 import routers from './src/routers';
+import { errorHandler } from './src/utils/middlewares';
 
 const { PORT } = getValidEnv();
 const app = express();
@@ -12,6 +13,7 @@ app.use(cookie());
 for (const router of routers) {
   app.use('/api/v1', router);
 }
+app.use(errorHandler);
 
 (async function () {
   try {

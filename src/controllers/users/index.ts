@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import ms from 'ms';
 import User from '../../models/User';
 import { loginSchema, registerSchema } from './schema';
@@ -12,26 +12,30 @@ class UserController {
     res.json(users);
   };
 
-  login = async (req: Request, res: Response) => {
-    const loginData = loginSchema.parse(req.body);
+  login = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const loginData = loginSchema.parse(req.body);
 
-    const user = await loginService.validateLoginData(loginData);
-    const tokens = await loginService.login(user);
-    const env = getValidEnv();
+      const user = await loginService.validateLoginData(loginData);
+      const tokens = await loginService.login(user);
+      const env = getValidEnv();
 
-    res.cookie('accessToken', tokens.accessToken, {
-      maxAge: ms(env.ACCESS_EXPIRE),
-      httpOnly: true,
-    }); // on HTTPS should also be secure: true
-    res.cookie('refreshToken', tokens.refreshToken, {
-      maxAge: ms(env.REFRESH_EXPIRE),
-      httpOnly: true,
-    });
+      res.cookie('accessToken', tokens.accessToken, {
+        maxAge: ms(env.ACCESS_EXPIRE),
+        httpOnly: true,
+      }); // on HTTPS should also be secure: true
+      res.cookie('refreshToken', tokens.refreshToken, {
+        maxAge: ms(env.REFRESH_EXPIRE),
+        httpOnly: true,
+      });
 
-    res.json({
-      user,
-      tokens,
-    });
+      res.json({
+        user,
+        tokens,
+      });
+    } catch (e) {
+      next(e);
+    }
   };
 
   register = async (req: Request, res: Response) => {

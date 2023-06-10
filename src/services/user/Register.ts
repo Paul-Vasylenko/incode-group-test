@@ -3,6 +3,7 @@ import { RegisterSchema } from '../../controllers/users/schema';
 import Role from '../../models/Role';
 import User, { UserCreateData } from '../../models/User';
 import { encrypt, generateTokens } from '../../utils';
+import ApiError from '../../utils/errors';
 
 class RegisterService {
   async validateRegisterData(registerData: RegisterSchema) {
@@ -13,11 +14,13 @@ class RegisterService {
       include: [{ model: Role, as: 'role' }],
     });
 
-    if (existingUser) throw new Error('User with this email already exists');
-
-    const roleExists = await Role.findByPk(registerData.role);
-
-    if (!roleExists) throw new Error('Role does not exists');
+    if (existingUser)
+      throw new ApiError({
+        message: 'User with this email already exists',
+        status: 400,
+        type: 'VALIDATION_ERROR',
+      });
+    const roleExists = await Role.findById(registerData.role);
 
     return roleExists;
   }
@@ -34,7 +37,11 @@ class RegisterService {
     const role = await Role.findById(registerData.role);
     if (!role.mayHaveBoss) createData.bossId = null;
     if (role.mustHaveBoss && !createData.bossId)
-      throw new Error('Must have boss');
+      throw new ApiError({
+        message: 'Must have boss',
+        status: 400,
+        type: 'BAD_REQUEST',
+      });
     const user = new User(createData);
 
     return user.save();
