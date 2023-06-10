@@ -5,5 +5,12 @@
         "permissions": [
             "create_user"
         ]
+    },
+    {
+        "id": "EMPLOYEE",
+        "name": "Employee",
+        "permissions": [
+            "see_yourself"
+        ]
     }
 ]
