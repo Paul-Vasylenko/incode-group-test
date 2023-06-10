@@ -14,7 +14,8 @@
     "lint:fix": "eslint --ignore-path .gitignore . --fix",
     "format": "prettier --ignore-path .gitignore --check './*.ts' './src/**/*'",
     "format:fix": "prettier --ignore-path .gitignore --write './*.ts' './src/**/*'",
-    "seed": "sequelize db:seed:all"
+    "seed": "sequelize db:seed:all",
+    "seed-undo": "sequelize db:seed:undo:all"
   },
   "repository": {
     "url": "git+https://github.com/Paul-Vasylenko/incode-group-test.git"
@@ -27,6 +28,7 @@
   },
   "homepage": "https://github.com/Paul-Vasylenko/incode-group-test#readme",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.17",
     "@types/node": "^20.2.5",
     "eslint": "^8.42.0",
@@ -39,6 +41,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "pg": "^8.11.0",
