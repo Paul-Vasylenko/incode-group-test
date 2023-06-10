@@ -1,15 +1,46 @@
 import { NextFunction, Request, Response } from 'express';
 import ms from 'ms';
-import User from '../../models/User';
 import { loginSchema, registerSchema } from './schema';
-import { loginService, registerService } from '../../services';
-import { TTokenPayload, getValidEnv, isAllowed } from '../../utils';
+import {
+  listUsersService,
+  loginService,
+  registerService,
+} from '../../services';
+import {
+  TTokenPayload,
+  getValidEnv,
+  checkPermissions,
+  isAllowedAll,
+} from '../../utils';
 
 class UserController {
-  list = async (req: Request, res: Response) => {
-    const users = await User.findAll();
+  list = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = res.locals.user as TTokenPayload;
+      // Administrator may see all users
+      if (isAllowedAll(user, ['list_all_users'])) {
+        const users = await listUsersService.listAll();
 
-    res.json(users);
+        return res.json({
+          data: users,
+          meta: {
+            total: users.length,
+          },
+        });
+      }
+
+      const me = await listUsersService.getById(user.id);
+      const subordinates = await listUsersService.listSubordinates(me);
+
+      return res.json({
+        data: [me, ...subordinates],
+        meta: {
+          total: subordinates.length + 1,
+        },
+      });
+    } catch (e) {
+      next(e);
+    }
   };
 
   login = async (req: Request, res: Response, next: NextFunction) => {
@@ -38,15 +69,19 @@ class UserController {
     }
   };
 
-  register = async (req: Request, res: Response) => {
-    const user = res.locals.user as TTokenPayload;
-    isAllowed(user, ['create_user']);
+  register = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = res.locals.user as TTokenPayload;
+      checkPermissions(user, ['create_user']);
 
-    const registerData = registerSchema.parse(req.body);
-    await registerService.validateRegisterData(registerData);
-    const newUser = await registerService.register(registerData);
+      const registerData = registerSchema.parse(req.body);
+      await registerService.validateRegisterData(registerData);
+      const newUser = await registerService.register(registerData);
 
-    res.json(newUser);
+      res.json(newUser);
+    } catch (e) {
+      next(e);
+    }
   };
 }
 

@@ -3,7 +3,7 @@ import ApiError from './errors';
 interface IPermissions {
   permissions: string[];
 }
-export const isAllowed = (user: IPermissions, required: string[]) => {
+export const checkPermissions = (user: IPermissions, required: string[]) => {
   const allowed = required.some((permission) =>
     user.permissions.includes(permission),
   );
@@ -14,6 +14,12 @@ export const isAllowed = (user: IPermissions, required: string[]) => {
       type: 'PERMISSION_DENIED',
       status: 403,
     });
+};
+
+export const isAllowedAll = (user: IPermissions, required: string[]) => {
+  const allowed = required.every((permission) =>
+    user.permissions.includes(permission),
+  );
 
   return allowed;
 };

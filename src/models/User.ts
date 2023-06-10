@@ -63,6 +63,25 @@ class User extends Model {
 
   @DeletedAt
   deletedAt!: Date;
+
+  async getSubordinates() {
+    const subordinates = await User.findAll({
+      where: {
+        bossId: this.id,
+      },
+    });
+    const deepSubordinates: User[] = [];
+
+    for (const subordinate of subordinates) {
+      if(subordinate.roleId === 'BOSS'){
+        const childSubordinates = await subordinate.getSubordinates();
+  
+        deepSubordinates.push(...childSubordinates);
+      }
+    }
+
+    return [...subordinates, ...deepSubordinates];
+  }
 }
 
 export type UserCreateData = {
@@ -72,6 +91,6 @@ export type UserCreateData = {
   passwordHash: string;
   roleId: string;
   bossId: string | null;
-}
+};
 
 export default User;

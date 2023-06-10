@@ -5,7 +5,8 @@
         "mayHaveBoss": false,
         "mustHaveBoss": false,
         "permissions": [
-            "create_user"
+            "create_user",
+            "list_all_users"
         ]
     },
     {
@@ -14,8 +15,8 @@
         "mayHaveBoss": true,
         "mustHaveBoss": false,
         "permissions": [
-            "see_yourself",
-            "see_subordinates"
+            "list_yourself",
+            "list_subordinates"
         ]
     },
     {
@@ -24,7 +25,7 @@
         "mayHaveBoss": true,
         "mustHaveBoss": true,
         "permissions": [
-            "see_yourself"
+            "list_yourself"
         ]
     }
 ]
