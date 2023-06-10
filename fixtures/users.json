@@ -8,5 +8,47 @@
         "password": "passworD1!",
         "createdAt": "2023-03-07T11:36:06.642Z",
         "updatedAt": "2023-03-07T11:36:06.642Z"
+    },
+    {
+        "id": "f484fb87-a1cb-44e6-afa0-37be5d7cbb11",
+        "roleId": "ADMINISTRATOR",
+        "firstName": "Maria",
+        "lastName": "Prestley",
+        "email": "maria.prestley@kob.eu",
+        "password": "passworD1!",
+        "createdAt": "2023-03-07T11:36:06.642Z",
+        "updatedAt": "2023-03-07T11:36:06.642Z"
+    },
+    {
+        "id": "6426d8ab-2633-4339-8b2e-b351d5b5a4e8",
+        "roleId": "BOSS",
+        "firstName": "Antonina",
+        "lastName": "Smith",
+        "email": "antonina.smith@kob.eu",
+        "password": "passworD1!",
+        "createdAt": "2023-03-07T11:36:06.642Z",
+        "updatedAt": "2023-03-07T11:36:06.642Z"
+    },
+    {
+        "id": "03c49263-9a0e-4aed-acdd-86d8ffc663b6",
+        "roleId": "EMPLOYEE",
+        "firstName": "Anton",
+        "lastName": "Smith",
+        "email": "anton.smith@kob.eu",
+        "password": "passworD1!",
+        "bossId": "6426d8ab-2633-4339-8b2e-b351d5b5a4e8",
+        "createdAt": "2023-03-07T11:36:06.642Z",
+        "updatedAt": "2023-03-07T11:36:06.642Z"
+    },
+    {
+        "id": "324c7499-c3cb-4878-9e1c-43c0caf8dcf7",
+        "roleId": "EMPLOYEE",
+        "firstName": "Luke",
+        "lastName": "Prestley",
+        "email": "luke.prestley@kob.eu",
+        "password": "passworD1!",
+        "bossId": "6426d8ab-2633-4339-8b2e-b351d5b5a4e8",
+        "createdAt": "2023-03-07T11:36:06.642Z",
+        "updatedAt": "2023-03-07T11:36:06.642Z"
     }
 ]

@@ -30,10 +30,14 @@ export const registerSchema = zod
     email: zod.string().nonempty(),
     password: passwordSchema,
     confirmPassword: passwordSchema,
+    bossId: zod.string().uuid().nullable(),
     role: zod.string().nonempty(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ['confirmPassword'], // path of error
   });
+
+
+
 export type RegisterSchema = zod.infer<typeof registerSchema>;

@@ -40,10 +40,9 @@ class UserController {
 
     const registerData = registerSchema.parse(req.body);
     await registerService.validateRegisterData(registerData);
-
     const newUser = await registerService.register(registerData);
 
-    res.json(newUser)
+    res.json(newUser);
   };
 }
 

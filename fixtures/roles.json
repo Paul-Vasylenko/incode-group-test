@@ -2,13 +2,27 @@
     {
         "id": "ADMINISTRATOR",
         "name": "Administrator",
+        "mayHaveBoss": false,
+        "mustHaveBoss": false,
         "permissions": [
             "create_user"
         ]
     },
     {
+        "id": "BOSS",
+        "name": "Boss",
+        "mayHaveBoss": true,
+        "mustHaveBoss": false,
+        "permissions": [
+            "see_yourself",
+            "see_subordinates"
+        ]
+    },
+    {
         "id": "EMPLOYEE",
         "name": "Employee",
+        "mayHaveBoss": true,
+        "mustHaveBoss": true,
         "permissions": [
             "see_yourself"
         ]

@@ -11,6 +11,7 @@ import {
   ForeignKey,
   Default,
   DataType,
+  HasMany,
 } from 'sequelize-typescript';
 import Role from './Role';
 
@@ -40,14 +41,19 @@ class User extends Model {
   @Column
   passwordHash!: string;
 
-  // foreign key
   @ForeignKey(() => Role)
   @Column
   roleId!: string;
-
-  // for assosiation
   @BelongsTo(() => Role, { as: 'role' })
   role!: Role;
+
+  @ForeignKey(() => User)
+  @Column(DataType.UUID)
+  bossId!: string | null;
+  @BelongsTo(() => User, { as: 'boss' })
+  boss!: User | null;
+  @HasMany(() => User, { as: 'subordinates' })
+  subordinates!: User[];
 
   @CreatedAt
   createdAt!: Date;
@@ -57,6 +63,15 @@ class User extends Model {
 
   @DeletedAt
   deletedAt!: Date;
+}
+
+export type UserCreateData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  passwordHash: string;
+  roleId: string;
+  bossId: string | null;
 }
 
 export default User;
