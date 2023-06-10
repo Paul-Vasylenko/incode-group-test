@@ -1,10 +1,13 @@
 import express from 'express';
+import cookie from 'cookie-parser';
 import { getValidEnv } from './src/utils/env';
 import sequelize from './db';
 import routers from './src/routers';
 
 const { PORT } = getValidEnv();
 const app = express();
+app.use(express.json());
+app.use(cookie());
 
 for (const router of routers) {
   app.use('/api/v1', router);

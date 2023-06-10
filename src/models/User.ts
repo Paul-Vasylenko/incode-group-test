@@ -7,7 +7,8 @@ import {
   CreatedAt,
   UpdatedAt,
   DeletedAt,
-  HasOne
+  BelongsTo,
+  ForeignKey,
 } from 'sequelize-typescript';
 import Role from './Role';
 
@@ -16,7 +17,7 @@ import Role from './Role';
   tableName: 'Users',
   modelName: 'User',
   freezeTableName: true,
-  timestamps: true
+  timestamps: true,
 })
 class User extends Model {
   @IsUUID(4)
@@ -36,9 +37,14 @@ class User extends Model {
   @Column
   passwordHash!: string;
 
-  @HasOne(() => Role)
+  // foreign key
+  @ForeignKey(() => Role)
   @Column
-  roleId!: string
+  roleId!: string;
+
+  // for assosiation
+  @BelongsTo(() => Role, { as: 'role' })
+  role!: Role;
 
   @CreatedAt
   createdAt!: Date;

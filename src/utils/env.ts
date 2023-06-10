@@ -8,6 +8,10 @@ const EnvSchema = zod.object({
   DB_NAME: zod.string().nonempty(),
   DB_PASS: zod.string().nonempty(),
   DB_USER: zod.string().nonempty(),
+
+  JWT_SECRET: zod.string().nonempty(),
+  ACCESS_EXPIRE: zod.string().nonempty(),
+  REFRESH_EXPIRE: zod.string().nonempty(),
 });
 
 type TEnv = zod.infer<typeof EnvSchema>;

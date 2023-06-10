@@ -1,5 +1,12 @@
 import Sequelize from 'sequelize';
-import { Table, Column, Model, PrimaryKey } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  PrimaryKey,
+  HasMany,
+} from 'sequelize-typescript';
+import User from './User';
 
 @Table({
   tableName: 'Roles',
@@ -17,6 +24,9 @@ class Role extends Model {
 
   @Column(Sequelize.ARRAY(Sequelize.STRING))
   permissions!: string[];
+
+  @HasMany(() => User, { as: 'users' })
+  users!: User[];
 }
 
 export default Role;
