@@ -3,5 +3,6 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  reporters: ['./tests/custom-reporter.js'],
+  reporters: ['default'],
+  setupFilesAfterEnv: ['<rootDir>/tests/setup.js'],
 };

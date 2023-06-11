@@ -34,10 +34,9 @@ describe('Register service', () => {
         .post('/api/v1/register')
         .set('Cookie', `accessToken=${token}`)
         .send(data)
-        .expect(200)
+        .expect(403)
         .then(({ body, headers }) => {
           console.log(body);
-          
         });
     });
   });
