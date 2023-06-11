@@ -16,10 +16,8 @@
         "mayHaveBoss": true,
         "mustHaveBoss": false,
         "permissions": [
-            "list_yourself",
-            "list_subordinates",
-            "become_boss",
-            "change_boss"
+            "change_boss",
+            "only_subordinates"
         ]
     },
     {
@@ -28,8 +26,7 @@
         "mayHaveBoss": true,
         "mustHaveBoss": true,
         "permissions": [
-            "list_yourself",
-            "become_boss"
+            "see_yourself"
         ]
     }
 ]

@@ -14,6 +14,7 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import Role from './Role';
+import ApiError from '../utils/errors';
 
 @Table({
   paranoid: true,
@@ -73,14 +74,32 @@ class User extends Model {
     const deepSubordinates: User[] = [];
 
     for (const subordinate of subordinates) {
-      if(subordinate.roleId === 'BOSS'){
+      if (subordinate.roleId === 'BOSS') {
         const childSubordinates = await subordinate.getSubordinates();
-  
+
         deepSubordinates.push(...childSubordinates);
       }
     }
 
     return [...subordinates, ...deepSubordinates];
+  }
+
+  static async findById(id: string): Promise<User> {
+    const user = await User.findByPk(id, {
+      include: [
+        { model: User, as: 'boss' },
+        { model: Role, as: 'role' },
+      ],
+    });
+
+    if (!user)
+      throw new ApiError({
+        message: 'User not found',
+        type: 'NOT_FOUND',
+        status: 400,
+      });
+
+    return user;
   }
 }
 

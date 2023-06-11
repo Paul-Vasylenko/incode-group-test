@@ -12,7 +12,9 @@ import {
   getValidEnv,
   checkPermissions,
   isAllowedAll,
+  getTransaction,
 } from '../../utils';
+import ApiError from '../../utils/errors';
 
 class UserController {
   list = async (req: Request, res: Response, next: NextFunction) => {
@@ -71,6 +73,7 @@ class UserController {
   };
 
   register = async (req: Request, res: Response, next: NextFunction) => {
+    const transaction = await getTransaction();
     try {
       const user = res.locals.user as TTokenPayload;
       checkPermissions(user, ['create_user']);
@@ -80,34 +83,47 @@ class UserController {
       const newUser = await registerService.register(registerData);
 
       // Make user boss, because it now has subordinate
-      registerData.bossId && (await userService.changeRole(registerData.bossId, 'BOSS'));
+      registerData.bossId &&
+        (await userService.changeRole(registerData.bossId, 'BOSS'));
 
+      await transaction.commit();
       res.json(newUser);
     } catch (e) {
+      await transaction.rollback();
       next(e);
     }
   };
 
   updateBoss = async (req: Request, res: Response, next: NextFunction) => {
+    const transaction = await getTransaction();
+
     try {
       const user = res.locals.user as TTokenPayload;
 
-      // if bossId user is administrator throw
-      // else
-      // change bossId
-      // change role of bossId user to BOSS
-      // check if role of previour bossId user needs to be updated to EMPLOYEE
       checkPermissions(user, ['change_boss']); // validate if user can use this service
       const data = updateBossSchema.parse({
         ...req.body,
-        ...req.params
+        ...req.params,
       });
+
       const userToChange = await userService.getById(data.id);
-      const oldBoss = userToChange.boss;
+      if (
+        isAllowedAll(user, ['only_subordinates']) &&
+        userToChange.bossId !== user.id
+      )
+        throw new ApiError({
+          message: 'Boss may change boss only for his subordinates',
+          type: 'PERMISSION_DENIED',
+          status: 403,
+        });
 
       await userService.validateBecomeBoss(data.bossId); // validate if provided bossId may become boss
-      await userService.changeBoss(userToChange, data.bossId); 
+      await userService.changeBoss(userToChange, data.bossId);
+
+      await transaction.commit();
+      res.json({});
     } catch (e) {
+      await transaction.rollback();
       next(e);
     }
   };

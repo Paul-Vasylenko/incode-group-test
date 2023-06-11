@@ -45,13 +45,13 @@ export const getRefreshToken = (user: User) => {
 };
 
 export const generateTokens = (user: User) => {
-    return {
-        accessToken: getAccessToken(user),
-        refreshToken: getRefreshToken(user),
-    }
-}
+  return {
+    accessToken: getAccessToken(user),
+    refreshToken: getRefreshToken(user),
+  };
+};
 
-export const checkAccessToken = (token: string) : TTokenPayload => {
+export const checkAccessToken = (token: string): TTokenPayload => {
   const env = getValidEnv();
   return jsonwebtoken.verify(token, env.JWT_SECRET) as TTokenPayload;
-} 
+};

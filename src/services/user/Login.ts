@@ -24,11 +24,12 @@ class LoginService {
       loginData.password,
       existingUser.passwordHash,
     );
-    if (!passwordCorrect) throw new ApiError({
-      message: 'Incorrect password',
-      status: 400,
-      type: 'BAD_REQUEST'
-    });
+    if (!passwordCorrect)
+      throw new ApiError({
+        message: 'Incorrect password',
+        status: 400,
+        type: 'BAD_REQUEST',
+      });
 
     return existingUser;
   }
