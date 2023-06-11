@@ -93,21 +93,17 @@ class UserController {
     try {
       const user = res.locals.user as TTokenPayload;
 
-      // if bossId user is administrator throw
-      // else
-      // change bossId
-      // change role of bossId user to BOSS
-      // check if role of previour bossId user needs to be updated to EMPLOYEE
       checkPermissions(user, ['change_boss']); // validate if user can use this service
       const data = updateBossSchema.parse({
         ...req.body,
         ...req.params,
       });
       const userToChange = await userService.getById(data.id);
-      const oldBoss = userToChange.boss;
 
       await userService.validateBecomeBoss(data.bossId); // validate if provided bossId may become boss
       await userService.changeBoss(userToChange, data.bossId);
+
+      res.json({});
     } catch (e) {
       next(e);
     }

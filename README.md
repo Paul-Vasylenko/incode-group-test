@@ -1,4 +1,5 @@
 TRANSACTIONS ADD
+ADD Change boss for boss only for his subs
 
 ## Start
 

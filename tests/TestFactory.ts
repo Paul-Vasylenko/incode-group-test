@@ -2,7 +2,7 @@ import sequelize from '../db';
 import users from '../fixtures/users.json';
 import roles from '../fixtures/roles.json';
 import User from '../src/models/User';
-import { encrypt, getAccessToken } from '../src/utils';
+import { checkAccessToken, encrypt, getAccessToken } from '../src/utils';
 import Role from '../src/models/Role';
 
 export { sequelize, users, roles, User, Role };
@@ -58,13 +58,32 @@ export default class TestFactory {
       where: {
         roleId: role,
       },
-      include : [
-        { model: Role, as: 'role' }
-      ]
+      include: [{ model: Role, as: 'role' }],
     });
 
     if (!user) throw new Error('User not found');
 
     return getAccessToken(user);
+  }
+
+  getUserFromToken(token: string) {
+    return checkAccessToken(token);
+  }
+
+  async leaveOnlyOneSubordinate(bossId: string, id: string) {
+    const oldBossEmployees = (
+      await User.findAll({
+        where: {
+          bossId,
+        },
+      })
+    )
+      .filter((u) => u.id !== id)
+      .map((u) => {
+        u.bossId = null;
+        return u;
+      });
+
+    await Promise.all(oldBossEmployees.map((u) => u.save()));
   }
 }
