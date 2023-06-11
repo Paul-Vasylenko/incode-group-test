@@ -96,7 +96,7 @@ class UserController {
 
   updateBoss = async (req: Request, res: Response, next: NextFunction) => {
     const transaction = await getTransaction();
-  
+
     try {
       const user = res.locals.user as TTokenPayload;
 

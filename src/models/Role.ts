@@ -35,15 +35,15 @@ class Role extends Model {
   @HasMany(() => User, { as: 'users' })
   users!: User[];
 
-
   static async findById(id: string) {
     const role = await this.findByPk(id);
-    
-    if(!role) throw new ApiError({
-      message: 'Not found',
-      status: 404,
-      type: 'NOT_FOUND'
-    });
+
+    if (!role)
+      throw new ApiError({
+        message: 'Not found',
+        status: 404,
+        type: 'NOT_FOUND',
+      });
 
     return role;
   }

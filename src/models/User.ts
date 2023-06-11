@@ -84,7 +84,7 @@ class User extends Model {
     return [...subordinates, ...deepSubordinates];
   }
 
-  static async findById(id: string) {
+  static async findById(id: string): Promise<User> {
     const user = await User.findByPk(id, {
       include: [
         { model: User, as: 'boss' },

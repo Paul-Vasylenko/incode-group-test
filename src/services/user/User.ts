@@ -42,8 +42,8 @@ class UserUseService {
 
     await user.save(); // update boss for provided user
     await this.changeRole(bossId, 'BOSS'); // give boss correct new role (if it was not before)
-    
-    oldBoss && await this.validateBossRole(oldBoss); // check if old boss is still boss, or just an employee
+
+    oldBoss && (await this.validateBossRole(oldBoss)); // check if old boss is still boss, or just an employee
   }
 
   async validateBossRole(user: User) {
