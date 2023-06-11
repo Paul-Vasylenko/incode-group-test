@@ -12,6 +12,7 @@ import {
   getValidEnv,
   checkPermissions,
   isAllowedAll,
+  getTransaction,
 } from '../../utils';
 import ApiError from '../../utils/errors';
 
@@ -72,6 +73,7 @@ class UserController {
   };
 
   register = async (req: Request, res: Response, next: NextFunction) => {
+    const transaction = await getTransaction();
     try {
       const user = res.locals.user as TTokenPayload;
       checkPermissions(user, ['create_user']);
@@ -84,13 +86,17 @@ class UserController {
       registerData.bossId &&
         (await userService.changeRole(registerData.bossId, 'BOSS'));
 
+      await transaction.commit();
       res.json(newUser);
     } catch (e) {
+      await transaction.rollback();
       next(e);
     }
   };
 
   updateBoss = async (req: Request, res: Response, next: NextFunction) => {
+    const transaction = await getTransaction();
+  
     try {
       const user = res.locals.user as TTokenPayload;
 
@@ -99,7 +105,7 @@ class UserController {
         ...req.body,
         ...req.params,
       });
-      
+
       const userToChange = await userService.getById(data.id);
       if (
         isAllowedAll(user, ['only_subordinates']) &&
@@ -114,8 +120,10 @@ class UserController {
       await userService.validateBecomeBoss(data.bossId); // validate if provided bossId may become boss
       await userService.changeBoss(userToChange, data.bossId);
 
+      await transaction.commit();
       res.json({});
     } catch (e) {
+      await transaction.rollback();
       next(e);
     }
   };

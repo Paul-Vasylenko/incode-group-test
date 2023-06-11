@@ -1,6 +1,3 @@
-TRANSACTIONS ADD
-ADD Change boss for boss only for his subs
-
 # no recursion here, so i didn't do it
 
 Change user's boss (only boss can do that and only for her subordinates)
