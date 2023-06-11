@@ -80,7 +80,8 @@ class UserController {
       const newUser = await registerService.register(registerData);
 
       // Make user boss, because it now has subordinate
-      registerData.bossId && (await userService.changeRole(registerData.bossId, 'BOSS'));
+      registerData.bossId &&
+        (await userService.changeRole(registerData.bossId, 'BOSS'));
 
       res.json(newUser);
     } catch (e) {
@@ -100,13 +101,13 @@ class UserController {
       checkPermissions(user, ['change_boss']); // validate if user can use this service
       const data = updateBossSchema.parse({
         ...req.body,
-        ...req.params
+        ...req.params,
       });
       const userToChange = await userService.getById(data.id);
       const oldBoss = userToChange.boss;
 
       await userService.validateBecomeBoss(data.bossId); // validate if provided bossId may become boss
-      await userService.changeBoss(userToChange, data.bossId); 
+      await userService.changeBoss(userToChange, data.bossId);
     } catch (e) {
       next(e);
     }

@@ -58,6 +58,9 @@ export default class TestFactory {
       where: {
         roleId: role,
       },
+      include : [
+        { model: Role, as: 'role' }
+      ]
     });
 
     if (!user) throw new Error('User not found');
