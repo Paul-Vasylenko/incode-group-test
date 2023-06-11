@@ -10,8 +10,9 @@ const sequelize = new Sequelize({
   password: env.DB_PASS,
   host: '127.0.0.1',
   port: 5432,
+  logging: false,
   sync: {
-    force : false
+    force: false,
   },
   models: [__dirname + '/src/models'],
 });
