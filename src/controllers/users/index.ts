@@ -13,6 +13,7 @@ import {
   checkPermissions,
   isAllowedAll,
 } from '../../utils';
+import ApiError from '../../utils/errors';
 
 class UserController {
   list = async (req: Request, res: Response, next: NextFunction) => {
@@ -98,7 +99,17 @@ class UserController {
         ...req.body,
         ...req.params,
       });
+      
       const userToChange = await userService.getById(data.id);
+      if (
+        isAllowedAll(user, ['only_subordinates']) &&
+        userToChange.bossId !== user.id
+      )
+        throw new ApiError({
+          message: 'Boss may change boss only for his subordinates',
+          type: 'PERMISSION_DENIED',
+          status: 403,
+        });
 
       await userService.validateBecomeBoss(data.bossId); // validate if provided bossId may become boss
       await userService.changeBoss(userToChange, data.bossId);

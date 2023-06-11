@@ -1,6 +1,10 @@
 TRANSACTIONS ADD
 ADD Change boss for boss only for his subs
 
+# no recursion here, so i didn't do it
+
+Change user's boss (only boss can do that and only for her subordinates)
+
 ## Start
 
 Node.JS version 16.x.x
@@ -13,4 +17,4 @@ As an ORM I will use Sequelize
 2. CREATE DATABASE user_organization_test;
 3. \q
 4. npm run migrate-test
-5. 
+5.

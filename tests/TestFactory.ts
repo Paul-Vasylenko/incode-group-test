@@ -66,6 +66,11 @@ export default class TestFactory {
     return getAccessToken(user);
   }
 
+  async loginAsUser(user: User | null) {
+    if (!user) throw new Error('No user provided');
+    return getAccessToken(user);
+  }
+
   getUserFromToken(token: string) {
     return checkAccessToken(token);
   }

@@ -1,6 +1,6 @@
 import supertest from 'supertest';
 import app from '..';
-import TestFactory, { User, users } from './TestFactory';
+import TestFactory, { Role, User, users } from './TestFactory';
 import { userService } from '../src/services';
 
 const request = supertest.agent(app);
@@ -21,6 +21,18 @@ describe('Change boss service', () => {
   const newBossId = '03c49263-9a0e-4aed-acdd-86d8ffc663b6';
 
   describe('Check permissions', () => {
+    beforeAll(async () => {
+      const user = new User({
+        firstName: 'maria',
+        lastName: 'maria',
+        email: 'maria.maria@gmail.com',
+        passwordHash: '',
+        roleId: 'BOSS',
+        bossId: null,
+      });
+
+      await user.save();
+    });
     it('should be not allowed for employee', async () => {
       const token = await factory.login('EMPLOYEE');
       const data = {
@@ -41,7 +53,31 @@ describe('Change boss service', () => {
         });
     });
 
-    // Add test so boss can not change boss not for his employee
+    it('should be allowed for boss to change only for his subordinates', async () => {
+      const boss = await User.findOne({
+        where: {
+          email: 'maria.maria@gmail.com',
+        },
+        include: [{ model: Role, as: 'role' }],
+      });
+      const token = await factory.loginAsUser(boss);
+      const data = {
+        bossId: newBossId,
+      };
+
+      await request
+        .patch(`/api/v1/users/${employeeId}`)
+        .set('Cookie', `accessToken=${token}`)
+        .send(data)
+        .expect(403)
+        .then(({ body }) => {
+          expect(body).toEqual({
+            message: 'Boss may change boss only for his subordinates',
+            type: 'PERMISSION_DENIED',
+            payload: {},
+          });
+        });
+    });
   });
 
   describe('Validation', () => {
