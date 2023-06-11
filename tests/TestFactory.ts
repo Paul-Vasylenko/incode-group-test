@@ -2,16 +2,10 @@ import sequelize from '../db';
 import users from '../fixtures/users.json';
 import roles from '../fixtures/roles.json';
 import User from '../src/models/User';
-import { encrypt } from '../src/utils';
+import { encrypt, getAccessToken } from '../src/utils';
 import Role from '../src/models/Role';
 
-export {
-    sequelize,
-    users,
-    roles,
-    User,
-    Role
-}
+export { sequelize, users, roles, User, Role };
 
 export default class TestFactory {
   public async cleanUp() {
@@ -57,5 +51,17 @@ export default class TestFactory {
     }
 
     return;
+  }
+
+  async login(role: string) {
+    const user = await User.findOne({
+      where: {
+        roleId: role,
+      },
+    });
+
+    if (!user) throw new Error('User not found');
+
+    return getAccessToken(user);
   }
 }

@@ -17,7 +17,7 @@
     "format:fix": "prettier --ignore-path .gitignore --write './*.ts' './src/**/*'",
     "seed": "sequelize db:seed:all",
     "seed-undo": "sequelize db:seed:undo:all",
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "repository": {
     "url": "git+https://github.com/Paul-Vasylenko/incode-group-test.git"
