@@ -7,7 +7,7 @@
 5. `npm run migrate` to run migrations
 6. `npm run seed` to run seeds
 7. `npm run dev` to run the application
-
+8. You can also import Postman collection from file `Incode Group Test.postman_collection.json`
 Success looks like this:
 ![Running app](image.png)
 ![Postman](image-1.png)
